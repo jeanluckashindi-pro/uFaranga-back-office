@@ -84,7 +84,7 @@ const CouvertureMondiale = () => {
   const vision5Ans = [
     { annee: '2026', pays: 4, agents: 5000, clients: 180000, volume: 8500 },
     { annee: '2027', pays: 8, agents: 12000, clients: 450000, volume: 22000 },
-    { annee: '2028', pays: 15, pays: 25000, clients: 980000, volume: 48000 },
+    { annee: '2028', pays: 15, agents: 25000, clients: 980000, volume: 48000 },
     { annee: '2029', pays: 25, agents: 45000, clients: 1800000, volume: 95000 },
     { annee: '2030', pays: 40, agents: 85000, clients: 3500000, volume: 180000 },
   ];
