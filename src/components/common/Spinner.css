@@ -1,0 +1,146 @@
+/* Spinner Container */
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-container.spinner-with-text {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.spinner-text {
+  margin: 0;
+  line-height: 1;
+}
+
+.spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+/* Spoke Spinner - Magnifique spinner radial avec barrettes tournantes */
+.spinner-radial {
+  position: relative;
+  display: inline-block;
+}
+
+.spinner-spoke {
+  position: absolute;
+  left: 50%;
+  top: 4%;
+  width: 1.5px;
+  height: 42%;
+  margin-left: -0.75px;
+  background: currentColor;
+  border-radius: 1.5px;
+  transform-origin: 50% calc(100% + (50% - 4%) / 0.42);
+  animation: spoke-fade 1.2s linear infinite;
+  opacity: 0;
+}
+
+/* Animation de fade pour chaque barrette */
+@keyframes spoke-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.15;
+  }
+}
+
+/* Variantes de taille pour les barrettes */
+.spinner-radial[style*="width: 14px"] .spinner-spoke {
+  width: 1.2px;
+  margin-left: -0.6px;
+  top: 5%;
+  height: 40%;
+  border-radius: 1.2px;
+}
+
+.spinner-radial[style*="width: 28px"] .spinner-spoke {
+  width: 2px;
+  margin-left: -1px;
+  top: 3%;
+  height: 43%;
+  border-radius: 2px;
+}
+
+.spinner-radial[style*="width: 36px"] .spinner-spoke {
+  width: 2.5px;
+  margin-left: -1.25px;
+  top: 3%;
+  height: 44%;
+  border-radius: 2.5px;
+}
+
+/* Dot Spinner */
+.dot-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.dot-spinner .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  animation: dot-bounce 1.4s ease-in-out infinite both;
+}
+
+.dot-spinner .dot:nth-child(1) { animation-delay: -0.32s; }
+.dot-spinner .dot:nth-child(2) { animation-delay: -0.16s; }
+.dot-spinner .dot:nth-child(3) { animation-delay: 0s; }
+
+@keyframes dot-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Bar Spinner */
+.bar-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.bar-spinner .bar {
+  width: 2px;
+  height: 12px;
+  border-radius: 1px;
+  animation: bar-stretch 1.2s ease-in-out infinite;
+}
+
+.bar-spinner .bar:nth-child(1) { animation-delay: -0.4s; }
+.bar-spinner .bar:nth-child(2) { animation-delay: -0.3s; }
+.bar-spinner .bar:nth-child(3) { animation-delay: -0.2s; }
+.bar-spinner .bar:nth-child(4) { animation-delay: -0.1s; }
+.bar-spinner .bar:nth-child(5) { animation-delay: 0s; }
+
+@keyframes bar-stretch {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    opacity: 0.3;
+  }
+  20% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}

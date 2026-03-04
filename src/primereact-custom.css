@@ -1,0 +1,328 @@
+/* PrimeReact Custom Theme - uFaranga Colors */
+
+:root {
+  --primary-color: #007BFF;
+  --secondary-color: #F58424;
+  --text-color: #F9F9F9;
+  --light-gray: #F8F9FA;
+  --background-color: #00070F;
+  --card-color: #181F27;
+  --dark-blue: #000C18;
+  --dark-gray: #343A40;
+}
+
+/* DataTable Styles */
+.p-datatable .p-datatable-header {
+  background: var(--card-color);
+  border: none;
+  color: var(--text-color);
+  padding: 1rem;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: var(--card-color);
+  color: #9ca3af;
+  border-bottom: 1px solid var(--dark-gray);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  padding: 1rem;
+}
+
+.p-datatable .p-datatable-tbody > tr {
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  background: var(--card-color) !important;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  border-bottom: 1px solid var(--dark-gray);
+  padding: 1rem;
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+  background: var(--dark-blue);
+}
+
+/* Paginator */
+.p-paginator {
+  background: var(--card-color);
+  border: none;
+  color: var(--text-color);
+  padding: 1rem;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page {
+  color: #9ca3af;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page:hover {
+  background: var(--dark-gray);
+  color: var(--text-color);
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: var(--primary-color);
+  color: white;
+}
+
+.p-paginator .p-paginator-first,
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next,
+.p-paginator .p-paginator-last {
+  color: #9ca3af;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+}
+
+.p-paginator .p-paginator-first:hover,
+.p-paginator .p-paginator-prev:hover,
+.p-paginator .p-paginator-next:hover,
+.p-paginator .p-paginator-last:hover {
+  background: var(--dark-gray);
+  color: var(--text-color);
+}
+
+/* InputText */
+.p-inputtext {
+  background: var(--background-color);
+  border: 1px solid var(--dark-gray);
+  color: var(--text-color);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.p-inputtext:enabled:hover {
+  border-color: #6b7280;
+}
+
+.p-inputtext:enabled:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+.p-inputtext::placeholder {
+  color: #6b7280;
+}
+
+/* Dropdown */
+.p-dropdown {
+  background: var(--background-color);
+  border: 1px solid var(--dark-gray);
+  color: var(--text-color);
+  border-radius: 0.5rem;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: #6b7280;
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.p-dropdown-panel {
+  background: var(--card-color);
+  border: 1px solid var(--dark-gray);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+.p-dropdown-item {
+  color: var(--text-color);
+  padding: 0.75rem 1rem;
+}
+
+.p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
+  background: var(--dark-gray);
+  color: var(--text-color);
+}
+
+.p-dropdown-item.p-highlight {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Button */
+.p-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.p-button.p-button-primary {
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  color: white;
+}
+
+.p-button.p-button-primary:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+.p-button.p-button-secondary {
+  background: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+  color: white;
+}
+
+.p-button.p-button-secondary:hover {
+  background: #d66f1a;
+  border-color: #d66f1a;
+}
+
+.p-button.p-button-outlined {
+  background: transparent;
+  border: 1px solid var(--dark-gray);
+  color: #9ca3af;
+}
+
+.p-button.p-button-outlined:hover {
+  background: var(--dark-gray);
+  border-color: #6b7280;
+  color: var(--text-color);
+}
+
+/* Tag */
+.p-tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.p-tag.p-tag-success {
+  background: rgba(245, 132, 36, 0.2);
+  color: var(--secondary-color);
+}
+
+.p-tag.p-tag-info {
+  background: rgba(0, 123, 255, 0.2);
+  color: var(--primary-color);
+}
+
+.p-tag.p-tag-warning {
+  background: rgba(234, 179, 8, 0.2);
+  color: #eab308;
+}
+
+.p-tag.p-tag-danger {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.p-tag.p-tag-help {
+  background: rgba(156, 163, 175, 0.2);
+  color: #9ca3af;
+}
+
+/* Dialog */
+.p-dialog {
+  background: var(--card-color);
+  border: 1px solid var(--dark-gray);
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+.p-dialog .p-dialog-header {
+  background: var(--card-color);
+  color: var(--text-color);
+  border-bottom: 1px solid var(--dark-gray);
+  padding: 1.5rem;
+}
+
+.p-dialog .p-dialog-content {
+  background: var(--card-color);
+  color: var(--text-color);
+  padding: 1.5rem;
+}
+
+.p-dialog .p-dialog-footer {
+  background: var(--card-color);
+  border-top: 1px solid var(--dark-gray);
+  padding: 1.5rem;
+}
+
+/* Skeleton */
+.p-skeleton {
+  background: var(--dark-gray);
+  border-radius: 0.5rem;
+}
+
+.p-skeleton::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+}
+
+/* Input Icon */
+.p-input-icon-left > i,
+.p-input-icon-right > i {
+  color: #6b7280;
+}
+
+.p-input-icon-left > .p-inputtext {
+  padding-left: 2.5rem;
+}
+
+.p-input-icon-right > .p-inputtext {
+  padding-right: 2.5rem;
+}
+
+/* Scrollbar */
+.p-datatable .p-datatable-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.p-datatable .p-datatable-wrapper::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+.p-datatable .p-datatable-wrapper::-webkit-scrollbar-thumb {
+  background: var(--dark-gray);
+  border-radius: 4px;
+}
+
+.p-datatable .p-datatable-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Frozen columns z-index fix */
+.p-datatable .p-datatable-frozen-tbody,
+.p-datatable .p-datatable-frozen-column,
+.p-datatable .p-datatable-thead > tr > th,
+.p-datatable .p-datatable-tbody > tr > td {
+  z-index: 1 !important;
+}
+
+.p-datatable .p-datatable-scrollable-body {
+  z-index: 0 !important;
+}
+
+/* Force menu to be on top */
+div[style*="z-index: 99999"] {
+  z-index: 99999 !important;
+  position: fixed !important;
+}

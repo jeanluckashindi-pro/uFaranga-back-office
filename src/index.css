@@ -1,0 +1,305 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Allan:wght@400;700&family=Anton&family=Antonio:wght@100..700&family=Bangers&family=Cookie&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Luckiest+Guy&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+/* Import Mapbox GL CSS */
+@import 'mapbox-gl/dist/mapbox-gl.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Couleurs du projet */
+@layer base {
+  :root {
+    --primary: #007BFF;
+    --secondary: #F58424;
+    --text: #F9F9F9;
+    --light-gray: #F8F9FA;
+    --background: #00070F;
+    --card: #181F27;
+    --dark-blue: #000C18;
+    --dark-gray: #343A40;
+    --red-color:#8B1538;
+  }
+  
+  /* Police par défaut - Open Sans pour le corps, Josefin Sans pour les titres */
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #00070F;
+    color: #F9F9F9;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Josefin Sans', sans-serif;
+  }
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #00070F;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #007BFF 0%, #F58424 100%);
+  border-radius: 10px;
+  border: 2px solid #00070F;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #0066DD 0%, #E67310 100%);
+}
+
+::-webkit-scrollbar-corner {
+  background: #00070F;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #007BFF #00070F;
+}
+
+/* Select dropdown personnalisé */
+select {
+  background-image: none;
+}
+
+select option {
+  background-color: #181F27;
+  color: #F9F9F9;
+  padding: 8px;
+}
+
+select option:hover {
+  background-color: #007BFF;
+}
+
+/* Mapbox Popup Styles */
+.mapboxgl-popup-content {
+  background-color: #F9F9F9 !important;
+  border-radius: 8px !important;
+  padding: 0 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+}
+
+.mapboxgl-popup-close-button {
+  font-size: 20px !important;
+  padding: 8px !important;
+  color: #343A40 !important;
+}
+
+.mapboxgl-popup-close-button:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: #F9F9F9 !important;
+}
+
+/* Skeleton loading - shimmer fluide */
+@keyframes skeleton-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--dark-gray) 0%,
+    var(--card) 20%,
+    var(--dark-gray) 40%,
+    var(--dark-gray) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+.skeleton-shimmer-dark {
+  background: linear-gradient(
+    90deg,
+    rgba(52, 58, 64, 0.4) 0%,
+    rgba(52, 58, 64, 0.7) 20%,
+    rgba(52, 58, 64, 0.4) 40%,
+    rgba(52, 58, 64, 0.4) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+@layer utilities {
+  /* Couleurs du projet */
+  .bg-primary {
+    background-color: var(--primary);
+  }
+  
+  .bg-secondary {
+    background-color: var(--secondary);
+  }
+  
+  .text-primary {
+    color: var(--primary);
+  }
+  
+  .text-secondary {
+    color: var(--secondary);
+  }
+  
+  .border-primary {
+    border-color: var(--primary);
+  }
+  
+  .border-secondary {
+    border-color: var(--secondary);
+  }
+  
+  /* Classes de polices */
+  .font-body {
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .font-heading {
+    font-family: 'Josefin Sans', sans-serif;
+  }
+  
+  .font-anton {
+    font-family: 'Anton', sans-serif;
+  }
+  
+  .font-antonio {
+    font-family: 'Antonio', sans-serif;
+  }
+  
+  .font-bangers {
+    font-family: 'Bangers', cursive;
+  }
+  
+  .font-cookie {
+    font-family: 'Cookie', cursive;
+  }
+  
+  .font-allan {
+    font-family: 'Allan', cursive;
+  }
+  
+  .font-luckiest {
+    font-family: 'Luckiest Guy', cursive;
+  }
+  
+  .font-ubuntu {
+    font-family: 'Ubuntu', sans-serif;
+  }
+  
+}
+
+/* Custom DataTable Scroll */
+.custom-datatable .p-datatable-wrapper {
+  overflow-x: auto;
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+  height: 8px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: #181F27;
+  border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #343A40;
+  border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: #495057;
+}
+
+/* Custom PrimeReact Checkbox for Login */
+.p-checkbox .p-checkbox-box {
+  background-color: transparent !important;
+  border: 1px solid #9CA3AF !important;
+  border-radius: 4px !important;
+}
+
+.p-checkbox .p-checkbox-box.p-highlight {
+  background-color: #007BFF !important;
+  border-color: #007BFF !important;
+}
+
+.p-checkbox .p-checkbox-box:not(.p-disabled):hover {
+  border-color: #007BFF !important;
+}
+
+.p-checkbox .p-checkbox-box .p-checkbox-icon {
+  color: white !important;
+}
+
+/* Password Input Eye Icon */
+.password-input-icon {
+  color: #9CA3AF;
+  transition: color 0.2s;
+}
+
+.password-input-icon:hover {
+  color: #F9F9F9;
+}
+
+/* Animation pour l'alerte de sessions multiples */
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+/* Animation skeleton pour le chargement */
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.animate-pulse {
+  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Animation de shimmer pour skeleton */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+  background: linear-gradient(
+    to right,
+    #343A40 0%,
+    #495057 20%,
+    #343A40 40%,
+    #343A40 100%
+  );
+  background-size: 1000px 100%;
+}
