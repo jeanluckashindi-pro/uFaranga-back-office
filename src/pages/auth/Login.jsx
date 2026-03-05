@@ -3,7 +3,6 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Checkbox } from 'primereact/checkbox';
 import { Input, PasswordInput, Button, Alert } from '../../components/common';
 import Spinner from '../../components/common/Spinner';
-import ParticlesBackground from '../../components/ParticlesBackground';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Login = () => {
@@ -132,10 +131,7 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
-      {/* Particles Background */}
-      <ParticlesBackground />
-      
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header avec logo - fixe en haut sur mobile, centré sur desktop */}
       <div className="md:pt-8 md:pb-4 px-4 md:text-center bg-background md:bg-transparent border-b md:border-b-0 border-darkGray md:border-none py-3 md:py-0 relative z-10">
         <h1 className="text-xl md:text-4xl font-cookie text-secondary mb-0.5 md:mb-1" style={{ fontFamily: 'Kaushan Script, cursive' }}>
@@ -148,7 +144,7 @@ const Login = () => {
       </div>
 
       {/* Formulaire centré */}
-      <div className="flex-1 flex items-center justify-center px-4 pb-12 relative z-10">
+      <div className="flex-1 flex items-center justify-center px-4 pb-12">
         <div className="max-w-md w-full space-y-6">
           {/* Formulaire de connexion */}
           <div className="bg-transparent md:bg-card border-0 md:border md:border-darkGray rounded-lg p-4 md:p-8 md:shadow-lg">
@@ -255,7 +251,7 @@ const Login = () => {
             <p className="text-xs text-gray-500 leading-relaxed mb-5">
                Parce que nous croyons en une finance électronique mobile simple, sécurisée et accessible à tous, It's time for Africa!
             </p>
-            <p className="text-xs text-gray-500 leading-relaxed"><span className="text-white font-bold text-3xl" style={{ fontFamily: 'Kaushan Script, cursive' }}>Decima Company</span></p>
+            <p className="text-xs text-gray-500 leading-relaxed"><span className="text-white text-2xl" style={{ fontFamily: 'Kaushan Script, cursive' }}>Decima Company</span></p>
           </div>
         </div>
       </div>
