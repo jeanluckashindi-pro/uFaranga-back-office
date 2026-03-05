@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Checkbox } from 'primereact/checkbox';
 import { Input, PasswordInput, Button, Alert } from '../../components/common';
+import Spinner from '../../components/common/Spinner';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Login = () => {
@@ -12,9 +13,18 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [pageLoading, setPageLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
   const { login, clearAuthError, isAuthenticated, loading: authLoading } = useAuth();
+
+  // Simuler le chargement initial de la page
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPageLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Rediriger si déjà connecté
   useEffect(() => {
@@ -101,6 +111,24 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  // Afficher le spinner pendant le chargement initial
+  if (pageLoading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+        <Spinner size="medium" color="white" />
+        <div className="mt-8 text-center">
+          <h1 className="text-2xl font-cookie text-secondary mb-1" style={{ fontFamily: 'Kaushan Script, cursive' }}>
+            uFaranga
+          </h1>
+          <div className="flex items-center justify-center gap-2 font-allan">
+            <span className="text-lg text-text">Simply</span> 
+            <span className="text-lg text-primary">Money</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
