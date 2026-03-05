@@ -289,7 +289,7 @@ const ForgotPassword = () => {
         {/* Footer */}
         <div className="text-center">
           <p className="text-xs text-gray-500">
-            © 2024 uFaranga Platform. Tous droits réservés.
+             Decima Company La finance électronique mobile simple et accessible à tous.
           </p>
         </div>
       </div>
