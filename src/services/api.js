@@ -92,11 +92,11 @@ class ApiService {
 
   // Méthodes d'authentification
   async login(username, password, rememberMe = false) {
-    return this.request('/api/v1/authentification/connexion/', {
+    return this.request('/api/v1/identite/authentification/connexion/', {
       method: 'POST',
       body: JSON.stringify({ 
-        username, 
-        password,
+        identifiant: username, 
+        mot_de_passe: password,
         remember_me: rememberMe 
       }),
       includeAuth: false,
@@ -141,11 +141,11 @@ class ApiService {
   }
 
   async getProfile() {
-    return this.request('/api/v1/authentification/moi/');
+    return this.request('/api/v1/identite/utilisateurs/me/');
   }
 
   async updateProfile(data) {
-    return this.request('/api/v1/authentification/moi/', {
+    return this.request('/api/v1/identite/utilisateurs/me/', {
       method: 'PATCH',
       body: JSON.stringify(data),
     });

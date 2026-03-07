@@ -8,79 +8,91 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async ({ username, password, rememberMe }, { rejectWithValue }) => {
     try {
-      const data = await apiService.login(username, password, rememberMe);
+      const loginResponse = await apiService.login(username, password, rememberMe);
+      
+      // Vérifier la structure de réponse
+      if (!loginResponse.succes) {
+        throw new Error(loginResponse.message || 'Erreur de connexion');
+      }
       
       // IMPORTANT: Définir rememberMe AVANT de stocker les tokens
       secureStorage.setRememberMe(rememberMe);
       
       // Stocker les tokens (ils seront stockés dans le bon storage)
-      secureStorage.setAccessToken(data.access);
-      secureStorage.setRefreshToken(data.refresh);
+      secureStorage.setAccessToken(loginResponse.token);
+      if (loginResponse.refresh_token) {
+        secureStorage.setRefreshToken(loginResponse.refresh_token);
+      }
       
       // Récupérer le profil complet
-      const profile = await apiService.getProfile();
+      const profileResponse = await apiService.getProfile();
       
-      // Mapper les données du profil
+      // Vérifier la structure de réponse du profil
+      if (!profileResponse.succes) {
+        throw new Error(profileResponse.message || 'Erreur lors de la récupération du profil');
+      }
+      
+      const profile = profileResponse.data;
+      
+      // Mapper les données du profil avec la nouvelle structure
       const userData = {
-        id: profile.id,
-        email: profile.courriel,
-        firstName: profile.prenom,
-        lastName: profile.nom_famille,
-        fullName: profile.nom_complet,
-        phoneNumber: profile.numero_telephone,
-        dateOfBirth: profile.date_naissance,
-        placeOfBirth: profile.lieu_naissance,
-        nationality: profile.nationalite,
-        countryOfResidence: profile.pays_residence,
-        province: profile.province,
-        city: profile.ville,
-        commune: profile.commune,
-        quarter: profile.quartier,
-        avenue: profile.avenue,
-        houseNumber: profile.numero_maison,
-        fullAddress: profile.adresse_complete,
-        postalCode: profile.code_postal,
-        isPhoneVerified: profile.telephone_verifie,
-        phoneVerifiedAt: profile.telephone_verifie_le,
-        isEmailVerified: profile.courriel_verifie,
-        emailVerifiedAt: profile.courriel_verifie_le,
-        kycLevel: profile.niveau_kyc,
-        kycValidatedAt: profile.date_validation_kyc,
-        kycValidatorId: profile.validateur_kyc_id,
-        userType: profile.type_utilisateur,
-        status: profile.statut,
-        statusReason: profile.raison_statut,
-        loginAttempts: profile.nombre_tentatives_connexion,
-        blockedUntil: profile.bloque_jusqua,
-        twoFactorEnabled: profile.double_auth_activee,
-        isActive: profile.est_actif,
-        isStaff: profile.is_staff,
-        isSuperuser: profile.is_superuser,
-        createdAt: profile.date_creation,
-        updatedAt: profile.date_modification,
-        lastLogin: profile.derniere_connexion,
-        lastPasswordChange: profile.derniere_modification_mdp,
-        profile: {
-          id: profile.profil?.id,
-          avatarUrl: profile.profil?.url_avatar,
-          coverPhotoUrl: profile.profil?.url_photo_couverture,
-          bio: profile.profil?.biographie,
-          language: profile.profil?.langue,
-          preferredCurrency: profile.profil?.devise_preferee,
-          timezone: profile.profil?.fuseau_horaire,
-          dateFormat: profile.profil?.format_date,
-          timeFormat: profile.profil?.format_heure,
-          emailNotifications: profile.profil?.notifications_courriel,
-          smsNotifications: profile.profil?.notifications_sms,
-          pushNotifications: profile.profil?.notifications_push,
-          transactionNotifications: profile.profil?.notifications_transactions,
-          marketingNotifications: profile.profil?.notifications_marketing,
-          publicProfile: profile.profil?.profil_public,
-          showPhone: profile.profil?.afficher_telephone,
-          showEmail: profile.profil?.afficher_courriel,
-          metadata: profile.profil?.metadonnees,
+        id: profile.utilisateur.id,
+        numeroClient: profile.utilisateur.numero_client,
+        firstName: profile.utilisateur.prenom,
+        lastName: profile.utilisateur.nom_famille,
+        fullName: profile.utilisateur.nom_complet,
+        sexe: profile.utilisateur.sexe,
+        dateOfBirth: profile.utilisateur.date_naissance,
+        age: profile.utilisateur.age,
+        
+        // Contact
+        phoneNumber: profile.contact.telephone_principal,
+        isPhoneVerified: profile.contact.telephone_verifie,
+        email: profile.contact.email_principal,
+        isEmailVerified: profile.contact.email_verifie,
+        
+        // KYC
+        kycLevel: profile.kyc.niveau,
+        kycStatus: profile.kyc.statut,
+        kycValidatedAt: profile.kyc.date_validation,
+        riskScore: profile.kyc.score_risque,
+        riskCategory: profile.kyc.categorie_risque,
+        
+        // Compte
+        userType: profile.compte.type_utilisateur,
+        status: profile.compte.statut,
+        isActive: profile.compte.est_actif,
+        createdAt: profile.compte.date_creation,
+        lastLogin: profile.compte.derniere_connexion,
+        
+        // Sécurité
+        twoFactorEnabled: profile.securite.double_auth_activee,
+        twoFactorMethod: profile.securite.methode_2fa,
+        loginAttempts: profile.securite.nombre_tentatives_connexion,
+        forcePasswordChange: profile.securite.force_changement_mdp,
+        
+        // Préférences
+        preferences: {
+          language: profile.preferences.langue_preferee,
+          timezone: profile.preferences.fuseau_horaire,
+          preferredCurrency: profile.preferences.devise_preferee,
+          emailNotifications: profile.preferences.notifications_email,
+          smsNotifications: profile.preferences.notifications_sms,
+          pushNotifications: profile.preferences.notifications_push,
         },
-        metadata: profile.metadonnees,
+        
+        // Localisation
+        location: {
+          countryId: profile.localisation.pays_id,
+          provinceId: profile.localisation.province_id,
+          addressLine1: profile.localisation.adresse_ligne1,
+        },
+        
+        // Statistiques
+        statistics: {
+          loginAttempts: profile.statistiques.nombre_tentatives_connexion,
+          lastPasswordChange: profile.statistiques.derniere_modification_mdp,
+        },
       };
       
       secureStorage.setUser(userData);
@@ -97,7 +109,7 @@ export const loginUser = createAsyncThunk(
       
       return {
         user: userData,
-        activeSessions: profile.sessions_actives,
+        activeSessions: null, // À adapter si l'API retourne des sessions actives
       };
     } catch (error) {
       return rejectWithValue(error.message);
@@ -140,76 +152,81 @@ export const loadUserFromStorage = createAsyncThunk(
       // Retourner les données utilisateur du storage
       // On essaie de récupérer le profil à jour en arrière-plan mais on ne bloque pas
       try {
-        const profile = await apiService.getProfile();
+        const profileResponse = await apiService.getProfile();
         
-        // Mapper les données
+        // Vérifier la structure de réponse
+        if (!profileResponse.succes) {
+          throw new Error('Erreur lors de la récupération du profil');
+        }
+        
+        const profile = profileResponse.data;
+        
+        // Mapper les données avec la nouvelle structure
         const updatedUserData = {
-          id: profile.id,
-          email: profile.courriel,
-          firstName: profile.prenom,
-          lastName: profile.nom_famille,
-          fullName: profile.nom_complet,
-          phoneNumber: profile.numero_telephone,
-          dateOfBirth: profile.date_naissance,
-          placeOfBirth: profile.lieu_naissance,
-          nationality: profile.nationalite,
-          countryOfResidence: profile.pays_residence,
-          province: profile.province,
-          city: profile.ville,
-          commune: profile.commune,
-          quarter: profile.quartier,
-          avenue: profile.avenue,
-          houseNumber: profile.numero_maison,
-          fullAddress: profile.adresse_complete,
-          postalCode: profile.code_postal,
-          isPhoneVerified: profile.telephone_verifie,
-          phoneVerifiedAt: profile.telephone_verifie_le,
-          isEmailVerified: profile.courriel_verifie,
-          emailVerifiedAt: profile.courriel_verifie_le,
-          kycLevel: profile.niveau_kyc,
-          kycValidatedAt: profile.date_validation_kyc,
-          kycValidatorId: profile.validateur_kyc_id,
-          userType: profile.type_utilisateur,
-          status: profile.statut,
-          statusReason: profile.raison_statut,
-          loginAttempts: profile.nombre_tentatives_connexion,
-          blockedUntil: profile.bloque_jusqua,
-          twoFactorEnabled: profile.double_auth_activee,
-          isActive: profile.est_actif,
-          isStaff: profile.is_staff,
-          isSuperuser: profile.is_superuser,
-          createdAt: profile.date_creation,
-          updatedAt: profile.date_modification,
-          lastLogin: profile.derniere_connexion,
-          lastPasswordChange: profile.derniere_modification_mdp,
-          profile: {
-            id: profile.profil?.id,
-            avatarUrl: profile.profil?.url_avatar,
-            coverPhotoUrl: profile.profil?.url_photo_couverture,
-            bio: profile.profil?.biographie,
-            language: profile.profil?.langue,
-            preferredCurrency: profile.profil?.devise_preferee,
-            timezone: profile.profil?.fuseau_horaire,
-            dateFormat: profile.profil?.format_date,
-            timeFormat: profile.profil?.format_heure,
-            emailNotifications: profile.profil?.notifications_courriel,
-            smsNotifications: profile.profil?.notifications_sms,
-            pushNotifications: profile.profil?.notifications_push,
-            transactionNotifications: profile.profil?.notifications_transactions,
-            marketingNotifications: profile.profil?.notifications_marketing,
-            publicProfile: profile.profil?.profil_public,
-            showPhone: profile.profil?.afficher_telephone,
-            showEmail: profile.profil?.afficher_courriel,
-            metadata: profile.profil?.metadonnees,
+          id: profile.utilisateur.id,
+          numeroClient: profile.utilisateur.numero_client,
+          firstName: profile.utilisateur.prenom,
+          lastName: profile.utilisateur.nom_famille,
+          fullName: profile.utilisateur.nom_complet,
+          sexe: profile.utilisateur.sexe,
+          dateOfBirth: profile.utilisateur.date_naissance,
+          age: profile.utilisateur.age,
+          
+          // Contact
+          phoneNumber: profile.contact.telephone_principal,
+          isPhoneVerified: profile.contact.telephone_verifie,
+          email: profile.contact.email_principal,
+          isEmailVerified: profile.contact.email_verifie,
+          
+          // KYC
+          kycLevel: profile.kyc.niveau,
+          kycStatus: profile.kyc.statut,
+          kycValidatedAt: profile.kyc.date_validation,
+          riskScore: profile.kyc.score_risque,
+          riskCategory: profile.kyc.categorie_risque,
+          
+          // Compte
+          userType: profile.compte.type_utilisateur,
+          status: profile.compte.statut,
+          isActive: profile.compte.est_actif,
+          createdAt: profile.compte.date_creation,
+          lastLogin: profile.compte.derniere_connexion,
+          
+          // Sécurité
+          twoFactorEnabled: profile.securite.double_auth_activee,
+          twoFactorMethod: profile.securite.methode_2fa,
+          loginAttempts: profile.securite.nombre_tentatives_connexion,
+          forcePasswordChange: profile.securite.force_changement_mdp,
+          
+          // Préférences
+          preferences: {
+            language: profile.preferences.langue_preferee,
+            timezone: profile.preferences.fuseau_horaire,
+            preferredCurrency: profile.preferences.devise_preferee,
+            emailNotifications: profile.preferences.notifications_email,
+            smsNotifications: profile.preferences.notifications_sms,
+            pushNotifications: profile.preferences.notifications_push,
           },
-          metadata: profile.metadonnees,
+          
+          // Localisation
+          location: {
+            countryId: profile.localisation.pays_id,
+            provinceId: profile.localisation.province_id,
+            addressLine1: profile.localisation.adresse_ligne1,
+          },
+          
+          // Statistiques
+          statistics: {
+            loginAttempts: profile.statistiques.nombre_tentatives_connexion,
+            lastPasswordChange: profile.statistiques.derniere_modification_mdp,
+          },
         };
         
         secureStorage.setUser(updatedUserData);
         
         return {
           user: updatedUserData,
-          activeSessions: profile.sessions_actives,
+          activeSessions: null,
         };
       } catch (profileError) {
         // Si l'API échoue, utiliser les données du storage
